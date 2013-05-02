@@ -1,0 +1,62 @@
+﻿@using System.Data;
+@using System.Web.UI.WebControls.WebParts;
+@{
+    ViewBag.Title = "主页";
+    ViewBag.Content = "实时数据";
+    ViewBag.Link = "/Home/Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Current</h2>
+<div id="chart1" style="width:70%; height:25%; float:left"></div> 
+<script type="text/javascript" src="~/js/jquery.js"></script>
+    <script type="text/javascript" src="~/js/jquery.jqplot.js"></script>
+    <script type="text/javascript" src="~/js/excanvas.js"></script>
+    <script type="text/javascript" src="~/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/js/plugins/jqplot.categoryAxisRenderer.js"></script>
+    <script type="text/javascript">
+        setInterval("query();", 2000); //如2000表示2秒请求一次
+        var line1 = [[1, 3], [2, 1], [3, 2], [4, 9], [5, 16], [6, 8], [7, 12]];
+        var line2 = [[1, 3], [2, 1], [3, 2], [4, 9], [5, 16], [6, 8], [7, 12]];
+        var plot1 = $.jqplot('chart1', [line1, line2]);
+        $.cookie("line1", line1);
+        var val;
+        var arr;
+     
+        function query() {
+            var a = Math.random();
+            $.getJSON("AIToWeb?ran=" + a / 100, function (data) {
+
+                //  $("#customers").find('tr').get(i + 1).cells[3].firstChild.innerText = data[i];
+                val = $.cookie("line1");
+                arr = val.split(',');
+                for (var t = 0; t < 7; t++) {
+                    line1[t][0] = t;
+                }
+                //     line1[1][1] = val[2];
+                //    line1[2][1] = val[6];
+                //   line1[3][1] = val[10];
+                for (var i = 1; i < 7; i++) {
+                    line1[i][1] = line1[i - 1][1];
+                    line1[i][1] = arr[2 * i - 1];
+                }
+
+                line1[0][1] = data[1];
+                $.getJSON("retRan7?ran=" + a / 100, function (data) {
+                    for (var t = 0; t < 7; t++) {
+                        line2[t][0] = t;
+                        line2[t][1] = data[t];
+                    }
+                })
+
+                var plot1 = $.jqplot('chart1', [line1, line2]);
+                plot1.series[0].data = line1;
+                plot1.series[1].data = line2;
+                plot1.replot();
+                $.cookie("line1", line1);
+                // alert(line1[2][1] + "  " + line1[3][1]);
+
+                //   line1[8][1] = 9;
+            })
+        }
+   </script>
+   <p>实时曲线</p>

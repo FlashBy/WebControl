@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Complex DataGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css"/>
+	<script type="text/javascript" src="~/js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="~/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+	    $(function () {
+	        $('#test').datagrid({
+	            title: 'My DataGrid',
+	            width: 700,
+	            height: 350,
+	            nowrap: true,
+	            autoRowHeight: false,
+	            striped: true,
+	            collapsible: true,
+	            url: '../Models/JsonHandler.ashx',
+	           
+	            columns: [[
+			       
+					{ field: 'name', title: 'Name', width: 120 },
+					
+				]],
+	            pagination: true,
+	            rownumbers: true,
+	            toolbar: [{
+	                id: 'btnadd',
+	                text: 'Add',
+	                iconCls: 'icon-add',
+	                handler: function () {
+	                    $('#btnsave').linkbutton('enable');
+	                    alert('add')
+	                }
+	            }, {
+	                id: 'btncut',
+	                text: 'Cut',
+	                iconCls: 'icon-cut',
+	                handler: function () {
+	                    $('#btnsave').linkbutton('enable');
+	                    alert('cut')
+	                }
+	            }, '-', {
+	                id: 'btnsave',
+	                text: 'Save',
+	                disabled: true,
+	                iconCls: 'icon-save',
+	                handler: function () {
+	                    $('#btnsave').linkbutton('disable');
+	                    alert('save')
+	                }
+	            }]
+	        });
+	        var p = $('#test').datagrid('getPager');
+	        $(p).pagination({
+	            onBeforeRefresh: function () {
+	                alert('before refresh');
+	            }
+	        });
+	    });
+	   
+	</script>
+</head>
+<body>
+	<table id="test"></table>
+</body>
+</html>

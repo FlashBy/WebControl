@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Control System Website - @RenderSection("TitleContent", required: false)</title>
+        @RenderSection("HeaderContent", required: false)
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        
+    </head>
+    <body id="top">
+        <div id="network">
+            <div class="center-wrapper">
+                <div style="float: left;">@DateTime.Now.ToShortDateString() <span class="text-separator">|</span> <span class="quiet">794 users online</span></div>
+
+               <div style="float: right;" id="toolbar">
+                   <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                  
+                </div>
+            </div>
+
+                <div class="clearer">&nbsp;</div>
+            </div>
+        <div id="site">
+            <div style="float: left;background-color:#999;padding-right: 10px;padding-bottom: 10px;" id="Nvgt">
+                <nav>
+                    <ul id="menu">
+                        <li>@Html.ActionLink("主页", "Index", "Home")</li>
+                        <li>@Html.ActionLink("变量表", "Values", "Work")</li>
+                        <li>@Html.ActionLink("实时数据", "Current", "Work")</li>
+                        <li>@Html.ActionLink("历史数据", "History", "Work")</li>
+                        <li>@Html.ActionLink("报表", "Statements", "Work")</li>
+                         <li>@Html.ActionLink("测试", "Test", "Work")</li>
+                        <li>@Html.ActionLink("账户管理", "Account", "Account")</li>
+                        <li>@Html.ActionLink("关于", "About", "Home")</li>
+                    </ul>
+                </nav>
+            </div>
+            
+                <div class="center-wrapper">
+                    <!-- Small Nav -->
+                <div class="small-nav">
+                    <a href=@ViewBag.Link>@ViewBag.Title</a>
+                    <span>&gt;</span>
+                    @ViewBag.Content
+                </div>
+                <!-- End Small Nav -->
+                    @RenderBody()
+                
+                </div>
+         
+            
+        </div>
+        <div>
+           <footer>
+                    <div class="center-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                </div>
+            </div>
+            </footer>
+        </div>
+    </body>
+</html>
